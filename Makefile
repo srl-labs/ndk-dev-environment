@@ -1,3 +1,12 @@
+#################
+# Makefile to automate workflows used to instantiate Go-based dev environment
+# and perform tasks required throughout the development process
+
+# needs 
+# - docker-ce
+# - containerlab
+#################
+
 APPNAME = demo-app
 
 LABFILE = dev.clab.yml
@@ -31,7 +40,7 @@ init:
 
 	go mod tidy
 
-build-app:
+build-app: lint
 	mkdir -p $(BIN_DIR)
 	go build -o $(BINARY) -ldflags="-s -w" main.go
 
@@ -51,7 +60,7 @@ redeploy-lab: destroy-lab deploy-lab create-app-symlink
 redeploy-all: build-app redeploy-lab create-app-symlink
 
 # build an app and restart app_mgr without redeploying the lab
-build-restart: build-app restart-app
+build-restart: build-app lint restart-app
 
 show-app-status:
 	cd lab; \
@@ -96,3 +105,11 @@ remove-files:
 	!Makefile
 	!README.md
 	EOF
+
+lint-yang:
+	docker run --rm -v $$(pwd):/work ghcr.io/hellt/yanglint yang/*.yang
+
+lint-yaml:
+	docker run --rm -v $$(pwd):/data cytopia/yamllint -d relaxed .
+
+lint: lint-yang lint-yaml
