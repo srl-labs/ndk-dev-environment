@@ -24,7 +24,7 @@ ifdef cleanup
 endif
 
 init:
-	mkdir -p yang logs build lab app
+	mkdir -p yang logs/srl1 build lab app
 
 	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/agent-config.yml.tpl > ${APPNAME}.yml
 	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/agent.yang.tpl > yang/${APPNAME}.yang
