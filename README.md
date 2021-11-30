@@ -1,0 +1,1 @@
+This repo provides a cookie-cutter experience for setting up a Go-based [NDK](https://learn.srlinux.dev/ndk/intro/) development environment. Read more about the approach at [learn.srlinux.dev](https://learn.srlinux.dev/ndk/guide/env/go/).
