@@ -8,6 +8,7 @@
 #################
 
 APPNAME = demo-app
+GOPKGNAME= demo-app
 
 LABFILE = dev.clab.yml
 BIN_DIR = $$(pwd)/build
@@ -24,20 +25,19 @@ ifdef cleanup
 endif
 
 init:
-	mkdir -p yang logs/srl1 build lab app
-
-	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/agent-config.yml.tpl > ${APPNAME}.yml
-	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/agent.yang.tpl > yang/${APPNAME}.yang
-	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/dev.clab.yml.tpl > lab/dev.clab.yml
-	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/nfpm.yml.tpl > nfpm.yml
+	mkdir -p yang logs/srl1 logs/srl2 build lab app
 	
-	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/go.mod.tpl > go.mod
-	sed 's/{{ndkappname}}/${APPNAME}/g' ./.gen/main.go.tpl > main.go
+	docker run --rm -e APPNAME=${APPNAME} -v $$(pwd):/tmp hairyhenderson/gomplate:stable --input-dir /tmp/.gen --output-map='/tmp/{{ .in | strings.TrimSuffix ".tpl" }}'
+	sudo chown -R $$(id -u):$$(id -g) .
+	mv agent.yang yang/${APPNAME}.yang
+	mv agent-config.yml ${APPNAME}.yml
+	mv dev.clab.yml lab/
 
-	sed -i 's/demo-app/${APPNAME}/g' Makefile
-
+	sed -i 's/myapp/${APPNAME}/g' Makefile
 	cp .gen/.gitignore .
 
+	go mod init ${GOPKGNAME}
+	go fmt main.go
 	go mod tidy
 
 build-app: lint
@@ -46,16 +46,18 @@ build-app: lint
 
 destroy-lab:
 	cd lab; \
-	clab des -t $(LABFILE) $(CLEANUP); \
-	rm -f .*.clab.* \
-	rm -rf ../logs/*
+	sudo clab des -t $(LABFILE) $(CLEANUP); \
+	sudo rm -f .*.clab.* \
+	sudo rm -rf ../logs/*
 
 deploy-lab:
-	mkdir -p logs/srl1
+	mkdir -p logs/srl1 logs/srl2
 	cd lab; \
-	clab dep -t $(LABFILE)
+	sudo clab dep -t $(LABFILE)
 
 redeploy-lab: destroy-lab deploy-lab create-app-symlink
+
+deploy-all: redeploy-all
 
 redeploy-all: build-app redeploy-lab create-app-symlink
 
@@ -64,19 +66,19 @@ build-restart: build-app lint restart-app
 
 show-app-status:
 	cd lab; \
-	clab exec -t $(LABFILE) --label clab-node-name=srl1 --cmd 'sr_cli "show system application $(APPNAME)"'
+	sudo clab exec -t $(LABFILE) --label clab-node-kind=srl --cmd 'sr_cli "show system application $(APPNAME)"'
 
 reload-app_mgr:
 	cd lab; \
-	clab exec -t $(LABFILE) --label clab-node-name=srl1 --cmd 'sr_cli "tools system app-management application app_mgr reload"'
+	sudo clab exec -t $(LABFILE) --label clab-node-kind=srl --cmd 'sr_cli "tools system app-management application app_mgr reload"'
 
 restart-app:
 	cd lab; \
-	clab exec -t $(LABFILE) --label clab-node-name=srl1 --cmd 'sr_cli "tools system app-management application $(APPNAME) restart"'
+	sudo clab exec -t $(LABFILE) --label clab-node-kind=srl --cmd 'sr_cli "tools system app-management application $(APPNAME) restart"'
 
 create-app-symlink:
 	cd lab; \
-	clab exec -t $(LABFILE) --label clab-node-name=srl1 --cmd 'sudo ln -s /tmp/build/$(APPNAME) /usr/local/bin/$(APPNAME)'
+	sudo clab exec -t $(LABFILE) --label clab-node-kind=srl --cmd 'sudo ln -s /tmp/build/$(APPNAME) /usr/local/bin/$(APPNAME)'
 
 compress-bin:
 	rm -f build/compressed
@@ -92,7 +94,7 @@ rpm:
 clean: destroy-lab remove-files .gitignore
 
 remove-files:
-	rm -rf logs build app lab yang *.yml *.go go.mod go.sum .gitignore
+	sudo rm -rf logs build app lab yang *.yml *.go go.mod go.sum .gitignore
 
 # create dev .gitignore
 .ONESHELL:
