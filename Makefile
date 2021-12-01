@@ -33,7 +33,7 @@ init:
 	mv agent-config.yml ${APPNAME}.yml
 	mv dev.clab.yml lab/
 
-	sed -i 's/myapp/${APPNAME}/g' Makefile
+	sed -i 's/demo-app/${APPNAME}/g' Makefile
 	cp .gen/.gitignore .
 
 	go mod init ${GOPKGNAME}
