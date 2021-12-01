@@ -1,8 +1,8 @@
-# {{ndkappname}} agent configuration file
-{{ndkappname}}:
+# {{ getenv "APPNAME" }} agent configuration file
+{{ getenv "APPNAME" }}:
   path: /usr/local/bin
-  launch-command: /usr/local/bin/{{ndkappname}}
+  launch-command: /usr/local/bin/{{ getenv "APPNAME" }}
   yang-modules:
-    names: ["{{ndkappname}}"]
+    names: ["{{ getenv "APPNAME" }}"]
     source-directories:
-      - "/opt/{{ndkappname}}/yang"
+      - "/opt/{{ getenv "APPNAME" }}/yang"

@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	appName       = "{{ndkappname}}"
+	appName       = "{{ getenv "APPNAME" }}"
 	logTimeFormat = "2006-01-02 15:04:05 MST"
 )
 
@@ -52,4 +52,6 @@ func main() {
 		Uint32("app-id", r.GetAppId()).
 		Str("name", appName).
 		Msg("app registered successfully!")
+		
+	<- ctx.Done()
 }
