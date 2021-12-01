@@ -1,4 +1,4 @@
-name: "{{ndkappname}}-dev"
+name: "{{ getenv "APPNAME" }}-dev"
 
 topology:
   defaults:
@@ -10,10 +10,14 @@ topology:
       binds:
         - "../build:/tmp/build" # mount dir with binaries
         - "../logs/srl1:/var/log/srlinux" # expose srlinux logs to a dev machine
-        - "../{{ndkappname}}.yml:/etc/opt/srlinux/appmgr/{{ndkappname}}.yml" # put agent config file to appmgr directory
-        - "../yang:/opt/{{ndkappname}}/yang" # yang modules
+        - "../{{ getenv "APPNAME" }}.yml:/etc/opt/srlinux/appmgr/{{ getenv "APPNAME" }}.yml" # put agent config file to appmgr directory
+        - "../yang:/opt/{{ getenv "APPNAME" }}/yang" # yang modules
     srl2:
-
+      binds:
+        - "../build:/tmp/build" # mount dir with binaries
+        - "../logs/srl2:/var/log/srlinux" # expose srlinux logs to a dev machine
+        - "../{{ getenv "APPNAME" }}.yml:/etc/opt/srlinux/appmgr/{{ getenv "APPNAME" }}.yml" # put agent config file to appmgr directory
+        - "../yang:/opt/{{ getenv "APPNAME" }}/yang" # yang modules
   links:
     - endpoints:
         - "srl1:e1-1"

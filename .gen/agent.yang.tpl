@@ -1,17 +1,17 @@
-module {{ndkappname}} {
+module {{ getenv "APPNAME" }} {
     yang-version 1.1;
-    namespace "example.com/{{ndkappname}}";
-    prefix "srl-labs-{{ndkappname}}";
+    namespace "example.com/{{ getenv "APPNAME" }}";
+    prefix "srl-labs-{{ getenv "APPNAME" }}";
 
     description
-        "{{ndkappname}} YANG module";
+        "{{ getenv "APPNAME" }} YANG module";
 
-    revision "2021-11-28" {
+    revision "{{ (time.Now).Local.Format "2006-01-02" }}" {
         description
             "initial release";
     }
 
-    container {{ndkappname}} {
+    container {{ getenv "APPNAME" }} {
         leaf test {
             type string;
         }
