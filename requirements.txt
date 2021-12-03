@@ -1,0 +1,1 @@
+https://github.com/nokia/srlinux-ndk-py/archive/main.zip
