@@ -8,7 +8,7 @@
 #################
 
 APPNAME = demo-app
-GOPKGNAME= demo-app
+GOPKGNAME := $(APPNAME)
 
 LABFILE = dev.clab.yml
 BIN_DIR = $$(pwd)/build
@@ -106,6 +106,10 @@ remove-files:
 	!LICENSE
 	!Makefile
 	!README.md
+
+	!.vscode
+	.vscode/*
+	!.vscode/tasks.json
 	EOF
 
 lint-yang:
