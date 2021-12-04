@@ -35,3 +35,24 @@ Do modifications to your app and re-build the app with:
 ```
 make build-restart
 ```
+
+## Atom editor integration
+For integration with Atom.io, you can use the [build](https://atom.io/packages/build) package:
+1. Follow the instructions to install it:
+```
+apm install build
+```
+(you may need to restart Atom afterwards to complete installation)
+
+2. Create a .atom-build.yml file in the top-level of your Atom project directory ( e.g. ~/Projects/ ):
+```
+cat > .atom-build.yml << EOF
+cmd: /usr/bin/make
+name: "Redeploy SR Linux NDK Go app"
+args:
+  - redeploy-all
+cwd: "{FILE_ACTIVE_PATH}"
+EOF
+```
+
+From now on, if you have e.g. your app main.go file open, you can press \<F7\> and it will be launched!
