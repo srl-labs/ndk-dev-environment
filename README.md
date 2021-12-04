@@ -24,7 +24,7 @@ Build the lab and deploy the demo application:
 make redeploy-all
 ```
 
-The app named `my-cool-app` is now running on `srl1`, you can explore the log of the app by reading the log file:
+The app named `my-cool-app` is now running on `srl1` you can explore the log of the app by reading the log file:
 
 ```
 tail -f logs/srl1/stdout/my-cool-app.log
