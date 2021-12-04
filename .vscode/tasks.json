@@ -1,0 +1,72 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "init ndk app",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "APPNAME=${input:appName}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "deploy all",
+            "type": "shell",
+            "command": "make deploy-all",
+            "problemMatcher": []
+        },
+        {
+            "label": "show app status",
+            "type": "shell",
+            "command": "make show-app-status",
+            "problemMatcher": []
+        },
+        {
+            "label": "redeploy app",
+            "type": "shell",
+            "command": "make redeploy-app",
+            "problemMatcher": []
+        },
+        {
+            "label": "lint",
+            "type": "shell",
+            "command": "make lint",
+            "problemMatcher": []
+        },
+        {
+            "label": "reload app manager",
+            "type": "shell",
+            "command": "make reload-app_mgr",
+            "problemMatcher": []
+        },
+        {
+            "label": "restart app",
+            "type": "shell",
+            "command": "make restart-app",
+            "problemMatcher": []
+        },
+        {
+            "label": "built rpm",
+            "type": "shell",
+            "command": "make rpm",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "appName",
+            "type": "promptString",
+            "description": "NDK application name",
+            "default": "demo-app"
+        }
+    ]
+}
