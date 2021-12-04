@@ -33,7 +33,7 @@ init:
 	mv agent-config.yml ${APPNAME}.yml
 	mv dev.clab.yml lab/
 
-	sed -i 's/demo-app/${APPNAME}/g' Makefile
+	sed -i 's/^APPNAME =.*$$/APPNAME = ${APPNAME}/g' Makefile
 	cp .gen/.gitignore .
 
 	go mod init ${GOPKGNAME}
@@ -92,6 +92,8 @@ rpm:
 	--packager rpm
 
 clean: destroy-lab remove-files .gitignore
+	# use default app name after clean
+	sed -i 's/^APPNAME =.*$$/APPNAME = demo-app/g' Makefile
 
 remove-files:
 	sudo rm -rf logs build app lab yang *.yml *.go go.mod go.sum .gitignore
