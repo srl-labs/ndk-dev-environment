@@ -4,3 +4,6 @@
 !LICENSE
 !Makefile
 !README.md
+!.vscode
+.vscode/*
+!.vscode/tasks.json
