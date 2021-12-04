@@ -59,10 +59,10 @@ redeploy-lab: destroy-lab deploy-lab create-app-symlink
 
 deploy-all: redeploy-all
 
-redeploy-all: build-app redeploy-lab create-app-symlink
+redeploy-all: build-app redeploy-lab
 
 # build an app and restart app_mgr without redeploying the lab
-build-restart: build-app lint restart-app
+redeploy-app: build-app lint restart-app
 
 show-app-status:
 	cd lab; \
@@ -85,7 +85,7 @@ compress-bin:
 	docker run --rm -w /stage -v $$(pwd):/stage gruebel/upx:latest --best --lzma -o build/compressed build/$(APPNAME)
 	mv build/compressed build/$(APPNAME)
 
-rpm:
+rpm: compress-bin
 	docker run --rm -v $$(pwd):/tmp -w /tmp goreleaser/nfpm package \
 	--config /tmp/nfpm.yml \
 	--target /tmp/build \
