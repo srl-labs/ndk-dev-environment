@@ -2,7 +2,7 @@
 # Makefile to automate workflows used to instantiate Go-based dev environment
 # and perform tasks required throughout the development process
 
-# needs 
+# needs
 # - docker-ce
 # - containerlab
 #################
@@ -32,17 +32,18 @@ init:
 	mv agent.yang yang/${APPNAME}.yang
 	mv agent-config.yml ${APPNAME}.yml
 	mv dev.clab.yml lab/
+	cp .gen/*.go .
 
 	sed -i 's/^APPNAME =.*$$/APPNAME = ${APPNAME}/g' Makefile
 	cp .gen/.gitignore .
 
 	go mod init ${GOPKGNAME}
-	go fmt main.go
+	go fmt .
 	go mod tidy
 
 build-app: lint
 	mkdir -p $(BIN_DIR)
-	go build -o $(BINARY) -ldflags="-s -w" main.go
+	go build -o $(BINARY) -ldflags="-s -w" .
 
 destroy-lab:
 	cd lab; \
