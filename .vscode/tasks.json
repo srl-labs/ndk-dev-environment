@@ -59,6 +59,12 @@
             "type": "shell",
             "command": "make rpm",
             "problemMatcher": []
+        },
+        {
+            "label": "redeploy lab",
+            "type": "shell",
+            "command": "make redeploy-lab",
+            "problemMatcher": []
         }
     ],
     "inputs": [
@@ -66,7 +72,7 @@
             "id": "appName",
             "type": "promptString",
             "description": "NDK application name",
-            "default": "demo-app"
+            "default": "greeter"
         }
     ]
 }
