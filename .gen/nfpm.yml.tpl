@@ -1,4 +1,4 @@
-name: "{{ getenv "APPNAME" }}" # name of the Python package
+name: "{{ getenv "APPNAME" }}" # agent's name
 arch: "amd64" # architecture you are using
 version: "v0.1.0" # version of this rpm package
 maintainer: "John Doe <john@doe.com>"
