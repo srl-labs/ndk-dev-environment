@@ -5,3 +5,6 @@
 !Makefile
 !README.md
 !requirements.txt
+!.vscode
+.vscode/*
+!.vscode/tasks.json

@@ -117,6 +117,10 @@ remove-files:
 	!LICENSE
 	!Makefile
 	!README.md
+	!requirements.txt
+	!.vscode
+	.vscode/*
+	!.vscode/tasks.json
 	EOF
 
 lint-yang:
