@@ -7,7 +7,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"github.com/nokia/srlinux-ndk-go/v21/ndk"
+	"github.com/nokia/srlinux-ndk-go/ndk"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
