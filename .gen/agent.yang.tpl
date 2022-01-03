@@ -12,8 +12,13 @@ module {{ getenv "APPNAME" }} {
     }
 
     container {{ getenv "APPNAME" }} {
-        leaf test {
+        leaf name {
             type string;
+        }
+
+        leaf greeting {
+            type string;
+            config false;
         }
     }
 }
