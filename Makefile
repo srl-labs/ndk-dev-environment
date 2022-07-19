@@ -55,7 +55,7 @@ deploy-lab:
 	cd lab; \
 	sudo clab dep -t $(LABFILE)
 
-redeploy-lab: destroy-lab deploy-lab create-app-symlink
+redeploy-lab: destroy-lab deploy-lab create-app-symlink reload-app_mgr
 
 deploy-all: redeploy-all
 
@@ -78,7 +78,7 @@ restart-app:
 
 create-app-symlink:
 	cd lab; \
-	sudo clab exec -t $(LABFILE) --label clab-node-kind=srl --cmd 'sudo ln -s /tmp/build/$(APPNAME) /usr/local/bin/$(APPNAME)'
+	sudo clab exec -t $(LABFILE) --label clab-node-kind=srl --cmd 'sudo bash -c "ln -s /tmp/build/$(APPNAME) /usr/local/bin/$(APPNAME) && mkdir -p /etc/opt/srlinux/appmgr && cp /tmp/$(APPNAME).yml /etc/opt/srlinux/appmgr/$(APPNAME).yml"'
 
 compress-bin:
 	rm -f build/compressed
